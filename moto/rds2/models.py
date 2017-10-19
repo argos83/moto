@@ -935,6 +935,7 @@ class RDS2Backend(BaseBackend):
                 primary = self.find_db_from_id(database.source_db_identifier)
                 primary.remove_replica(database)
             database.status = 'deleting'
+            self.publisher.notify(self.publisher.events.RDS2_DATABASE_DELETED, database)
             return database
         else:
             raise DBInstanceNotFoundError(db_instance_identifier)
